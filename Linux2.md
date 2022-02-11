@@ -23,7 +23,25 @@
 
 - tar
   - tar -cf ○.tar file 1 file 2
-  - tar -cvf ディレクトリごとやる 
+  - tar -cvf ディレクトリごとやる
   - ↑複数のファイルからtarファイルを作成
   - tar -xf アーカイブファイルを展開
   - tar -tf アーカイブ内のファイル一覧を表示
+
+- ブートの順序とか、ブートメニューの編集は復習、
+ - systemd.unit=rescue.targetをブートメニューで編集は覚えておく。
+
+- manの使い方
+ - man -k キーワードを含むmanを検索
+
+
+
+- 試験の注意
+ - ディレクトリかファイルかを気をつける
+ - cronの時は実行可能ファイル(chmod +x)にする
+ - /etc/fstab のtype はマウントされるディスクのファイルシステムのタイプ
+ - blkidでUUIDを確認
+ - ストレージデバイスにファイルシステムが含まれている場合はUUIDもある。
+ - lvdisplayで見れたUUIDと/dev/extra_storage/vol_homeのパーティションのUUIDが違った なぜか
+
+ - setfacl：aclの設定
