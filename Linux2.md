@@ -16,10 +16,10 @@
 
 
 - umaskの設定
-  - .bash_profileと.bashrcにumask 007を追記
+  - .bash_profileと.bashrcにumask 007を追記⭐︎→これ何
 - 認証keyでのsshlogin
   - ssh -i .ssh/review3_key student@servera
-- /etc/ssh/ssh_configについて
+- /etc/ssh/ssh_configについて:PermitRootLoginやPasswordauthentication
 
 - tar
   - tar -cf ○.tar file 1 file 2
@@ -50,11 +50,16 @@
  - 13-4は何をしているかわからないので質問したい
  - sealert -a /var/log/audit/audit.logでなんのコマンドをやれば良いか教えてくれる。
  - or joutanalctl -xeを見てみる。
+
+
  - root passwordを忘れた時→Linuxの最後の行にrd.breakを追加
  - そして、mount -o remount,rw /sysroot
  - そして、chroot /sysroot
  - そして、passwd root
  - touch /.autorelabel →空のファイルを作っておくと、次回起動時に自動的にSELinuxの再ラベルづけ
+ - 小文字大文字も気をつける!!!
+ - ""じゃないと$(コマンド)は認識されない
+
 
 - インストール
  - インストール用メディア：インストールプログラム、anaconda、BaseOSやAppstreamのパッケージ含む
@@ -62,4 +67,13 @@
  - BaseOS:OSの動作に不可欠な（最小限必要な）パッケージ群:firewalldとかglibcとかkernelとか。。
  - Appstream:開発者が用いるパッケージ群:pythonとか。いくつかのバージョンから選択してパッケージを
  インストールできる。
- -
+
+
+
+- もう一回確認したいこと
+ - vmlinuzとinitrdやinitramfs
+ - kickstartファイルでのインストール
+ - パスワードの期限決め
+ - rootpassword紛失時の対応
+ - stickybitとGUIDはもう一度確認したい
+ - .bash_profileと.bashrcとumask
