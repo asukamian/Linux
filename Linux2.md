@@ -29,7 +29,8 @@
   - tar -tf アーカイブ内のファイル一覧を表示
 
 - ブートの順序とか、ブートメニューの編集は復習、
- - systemd.unit=rescue.targetをブートメニューで編集は覚えておく。
+ - systemd.unit=rescue.targetをブートメニューで編集は覚えておく。→/etc/fstabが間違っていた
+ 時
 
 - manの使い方
  - man -k キーワードを含むmanを検索
@@ -45,3 +46,20 @@
  - lvdisplayで見れたUUIDと/dev/extra_storage/vol_homeのパーティションのUUIDが違った なぜか
 
  - setfacl：aclの設定
+ - selinuxはサービスなのか？？？
+ - 13-4は何をしているかわからないので質問したい
+ - sealert -a /var/log/audit/audit.logでなんのコマンドをやれば良いか教えてくれる。
+ - or joutanalctl -xeを見てみる。
+ - root passwordを忘れた時→Linuxの最後の行にrd.breakを追加
+ - そして、mount -o remount,rw /sysroot
+ - そして、chroot /sysroot
+ - そして、passwd root
+ - touch /.autorelabel →空のファイルを作っておくと、次回起動時に自動的にSELinuxの再ラベルづけ
+
+- インストール
+ - インストール用メディア：インストールプログラム、anaconda、BaseOSやAppstreamのパッケージ含む
+ バイナリDVD :リポジトリが含まれてる
+ - BaseOS:OSの動作に不可欠な（最小限必要な）パッケージ群:firewalldとかglibcとかkernelとか。。
+ - Appstream:開発者が用いるパッケージ群:pythonとか。いくつかのバージョンから選択してパッケージを
+ インストールできる。
+ -
