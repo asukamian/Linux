@@ -223,4 +223,41 @@
  - カーネルの実行バイナリ: vmlinuz
  - カーネルは全ての初期化を終えると初期RAMディスク（initrd, initramfs）を展開し、仮のルートファイルシステムとしてマウント
  - カーネルはinitrdのマウントに成功した後に、initrdに含まれるinit(systemd)を実行する
- -
+
+
+
+
+- 次の試験に向けて
+ - usermod -L operator : アカウントロック
+ - data -d '+90days'
+ - chage -d 0 operator1 : パスワード変更を強要
+ - chage -E 2019-07-24 operator1
+ - /etc/login.defs は全員分の
+ - usermod -c コメント　を付け加えれる
+ - userdel -r ホームディレクトリごと削除
+ - groupadd -g 10000 group   gidを指定
+ - groupmod -n group0022 group02 新しいnameに変更　-g 新しいGID
+ - usermod -aG なら補助グループを追加、複数になる
+
+ - コマンドラインショートカット：https://rol.redhat.com/rol/app/courses/rh124-8.2/pages/ch02s05
+ - PEERDNS=no にするとDHCPサーバからDNS情報を受け取らない
+ - find -size +70k -mmin +180 -user user -group group -type b
+ - journalctl -p err
+ - journalctl --since '-1 hour'
+ - journalctl -b 最新のシステムブートのみ：/var/log/journalに保存される場合
+ - journalctl -b -1 前回のブート
+ - vi /ec/chrony.confにserver classroom.example.comを追加。
+ - logger -p authpriv.alert で試せる
+ - /etc/systemd/journald.confのstorageパラメータを変えてリブート後もジャーナルが保持される
+ ようにする　auto,persistent,volatile
+ - メッセージの種類：ファシリティ
+ - tzselectで確認してtimedatectl set-timezone
+ - kill -l でSIGTERMとかの番号がわかる。
+
+
+ - 質問
+  - DHCPはインターフェイスが起動すると... : https://rol.redhat.com/rol/app/courses/rh124-8.2/pages/ch12s09
+
+  - wget使いまくりでよかったのか？
+  - 初歩的な質問：パッケージのインストールとは？インストールってどういうことをいうのか。
+  - - echo -n "$@ ": 入力を受け取って出力？
