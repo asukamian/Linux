@@ -253,6 +253,21 @@
  - メッセージの種類：ファシリティ
  - tzselectで確認してtimedatectl set-timezone
  - kill -l でSIGTERMとかの番号がわかる。
+ - 比較演算子　: gt>ge>=le<=lt<ne!=
+ - [ -z "$STRING" ] stringが０である。testコマンドと同じ
+ - [ -n "$STRING" ] stringが０でない。
+ - 正規表現にはシェルのメタ文字 ($、*、{} など) が含まれることがあるため、正規表現を一重引用符によりカプセル化することをお勧めします。
+ - これにより、コマンドによって解釈される。
+ - grep -v '^[#;]' /etc/ethertypesについて　２の方
+ - swapon -a を忘れない（mount -a）swapon --showで見れる。
+ - set 1(number) lvm on
+ - niceレベル -20が最高　19が最低
+ - ps u $(pgrep sha1sum) : CPU使用率
+ - ps -o comm,nice,pid  
+ - semanage port -l :一覧見る
+ - semanage port -a -t ...
+ - -aの代わりの-dは削除、-mは変更
+
 
 
  - 質問
@@ -261,3 +276,14 @@
   - wget使いまくりでよかったのか？
   - 初歩的な質問：パッケージのインストールとは？インストールってどういうことをいうのか。
   - - echo -n "$@ ": 入力を受け取って出力？
+  - systemd が新しい設定を登録できるようとは　https://rol.redhat.com/rol/app/courses/rh134-8.2/pages/ch06
+　- vfatについてdefaults?
+  - ext4 ファイルシステムの場合、ルートファイルシステムには 1 を https://rol.redhat.com/rol/app/courses/rh134-8.2/pages/ch06
+  - 物理エクステントの移動について　https://rol.redhat.com/rol/app/courses/rh134-8.2/pages/ch07s03　
+  - データが移動するということ？
+  - LVMよりもすごいバージョン？用途はVDOと同じ？論理ボリュームを作るということは。。
+  - stratisは、ファイルシステムを全部のストレージに割り当てない。
+  - 普通はファイルシステムを構築すると全部ストレージに割り当てるけど、？？
+  - そのため、ファイルシステムのサイズは 1 TiB と表示されても、実際にプールから割り当てられるストレージは 100 GiB しかない可能性があります。
+  - 何が良いのか　実際のサイズ知らないと困らないか？
+  - https://rol.redhat.com/rol/app/courses/rh134-8.2/pages/ch08s05 削除しても変わらなかった　なぜ？
