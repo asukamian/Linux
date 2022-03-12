@@ -174,7 +174,7 @@
   /var/log/journalができる　ちなみにvolatileだとどうなるか？
   - jounralctlのログはデフォルトでは再起動じに消えるようになっている。
   - tzselectでtimezoneを設定
-  - /etc/chrony.conf でserver classroom.example.com iburstを追加したあとに、timedatectl set-ntp yes
+  - /etc/chrony.conf でserver classroom.example.com iburstを追加したあとに、timedatectl set- yes
   - timedatectl -set-timezone ●　→確認したいときはtimedatectl list-timezones | grep
   - setfacl 権限なしの設定
   - usermod -s /sbin/nologin user03
@@ -207,6 +207,18 @@
   - udevadm settle の意味はなに。やらなくても良い？
   - vfatについて調べる
   - https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/proc_mounting-a-container-filesystem_assembly_working-with-containers
+  - fine -iname  大文字と小文字区別しない
+  - find -mmin -mmin +3 ３分以上前に更新されたファイル
+  -  -mtime 指定される日程より前に更新
+  - -atime 指定される日程より前にアクセス
+  - find -executable
+  - -perm -g+s SGIDのファイル
+  - -u -o全て -g
+  - ファイルに出力するとき、エラーは出力しないように気をつける　1>
+  - bytesでfindのときは100c⭐︎
+
+
+
 
  - 今日やりたいこと
   - rootパス紛失じの対応もう一回
@@ -259,7 +271,7 @@
  - 正規表現にはシェルのメタ文字 ($、*、{} など) が含まれることがあるため、正規表現を一重引用符によりカプセル化することをお勧めします。
  - これにより、コマンドによって解釈される。
  - grep -v '^[#;]' /etc/ethertypesについて　２の方
- - swapon -a を忘れない（mount -a）swapon --showで見れる。
+ - swapon -a を忘れない（mount -a）swapon --showで見れる。＆mkswapも
  - set 1(number) lvm on
  - niceレベル -20が最高　19が最低
  - ps u $(pgrep sha1sum) : CPU使用率
@@ -267,6 +279,65 @@
  - semanage port -l :一覧見る
  - semanage port -a -t ...
  - -aの代わりの-dは削除、-mは変更
+ - */7は７分ごと
+ - echo 'コマンド' | at now +3min
+ - 0 9 * * 1-5 mutt -s "Checking in" boss@example.com % Hi there boss, just checking in.
+ - while ! test -f my_first_cron_job.txt; do sleep 1s; done
+ - w -h : 上の説明がなし　w -h | wc -l : ユーザ数
+ - sysstat-collect.timer : /etc/systemd/system/sysstat-colect.timerに/usr/lib/以下のを
+ コピー。そこから編集。/var/log/sa以下に追加される。
+ - systemd-tmpfiles timerはデフォルトで(usr/libに書いてある)15分ごとにsystemd-tmpfiles cleanをトリガーし、
+ systemd-tmpfiles --cleanコマンドを実行
+ - /etc/tmp.files.d/ *.confにしたがって、たとえばsystemd-tmpfiles --cleanコマンドが
+ ５分で/tmpを一掃　。/usr/lib/tmpfiles.d/tmp.confをコピーする。
+ - とりあえず、/etc/tmpfiles.d/*.confを作って、systemd-tmpfiles --createをする。
+ - run-parts コマンドは、毎日、毎週、毎月のジョブも実行しますが、異なる設定ファイル /etc/anacrontab から呼び出されます。
+ - /etc/anacrontabは毎日毎週のジョブの定義をして、/etc/crontabは自分で定義可能？
+ - /etc/crontabとcrontab -e の違いは、ユーザを追加する（前者）かそうじゃないか
+ - nfsのオプション rw,sync
+ - 自動直接マップは絶対パス
+ - -rw,sync,fstype=nfs4
+ - swapon -aを忘れない
+ - コンテナでloginctl enable-lingerを忘れない
+ - umaskをデフォルトで設定するときは~/.bashrcと ~/.bash_profileに書き込む
+
+- 質問したいこと
+
+ -　質問: The services for podsvc start at boot とはなに。loginctl？でもリブートしてもコンテナは立ってる。。
+ ユーザーサービスが自動的に起動されるとは。ユーザーサービスとは
+
+ - 質問: vfat 0 2 ?
+ - マウントオプション asyncとは。ファイルシステム上での非同期の入/出力を許可します。とはつまり？
+ - envコマンドはどこを読み取っているのか。どのファイル？
+ -
+
+
+ - デフォルトの設定と今あるやつの適用と二回やる。setfacl
+ - nfsのオプションはdefaultsじゃなく、rw,sync
+ - -sigcont:プロセス再開
+ - kill -l でオプション見れる。
+ - デフォルトじゃないkeyを作る
+ - ssh-keygen -f .ssh/key2
+ - ssh-copy-id -i .ssh/key2.pub operator1@servera keyを渡す。
+ - ssh -i .ssh/key2 operator1@servera hostname keyの指定
+ - eval $(ssh-agent)のあと、ssh-add .ssh/key2で、次keyを利用してsshするときにkey自体の認証はいらなくなる。
+
+ - 語数はw -w 文字数はw -c
+ - date +%rは12時間表示
+ - ソフトリンクのときは絶対パス
+ - chmodをやるときはroot権限でやろう
+ - chage -m 10 -M 30 user名
+ - chage -d 0 user名　: パスワード変更強制
+ - export PATH=${PATH}:/home/user/sbin パスを追加
+ - bashrcの中でexport EDITOR=nanoのようにエディタ設定可能
+ - シェルから実行するプログラムの場合に適用する変数：環境変数, 例えばviとか
+
+
+ 帰ったら
+ - vdoとstratisやる.
+ - vgextend やる。
+ - /etc/fstabのおぷしょん
+
 
 
 
