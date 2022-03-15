@@ -112,7 +112,7 @@
  - kickstartファイルでのインストール
  - パスワードの期限決め
 
- - stickybitとGUIDはもう一度確認したい
+ - stickybit(1000)とGUID(4000)はもう一度確認したい
  - .bash_profileと.bashrcとumask
  - stratis
  - リンクの作り方　シンボリックリンクとハードリンク
@@ -144,25 +144,25 @@
 
  - 注意点・質問
   - autofsについてどのセクション
-  - balancedでよかったのか
+  - balancedでよかったのか tuned-adm recommend
   - ネットワークの設定：onboot yesにしなかった。
   - パッケージを探すとき: yum guile
   - モジュールのところもう一度読む
   - rpmとyum
   - rpm -p -q パッケージ名　-i
-  - yum localinstall のところstudentじゃなきゃいけない？
+  - yum localinstall のところstudentじゃなきゃいけない？⭐︎
   - findコマンドを使って、ファイルにまとめとく奴とかはどれの項目？
   - extendするときにfsもextend
   - VDO
   - swap のファイルシステム
   - vfat
   - lsblk -fp
-  - ownerが誰々のファイルを全部かく
+  - ownerが誰々のファイルを全部かく　⭐︎--user ?
   - xmlファイルの中で　ichを含む行だけ取り出せ
   - 15章システム上でのファイルの検索
   - 大文字と小文字を区別しないとき -i
   - 15章もう一度
-  - findコマンド --mmin
+  - findコマンド --mmin⭐︎
   - locateコマンドの前はupdatedb
   - findコマンドのサイズについて
   - ログ：ファシリティと優先度：例userとdebug
@@ -174,8 +174,8 @@
   /var/log/journalができる　ちなみにvolatileだとどうなるか？
   - jounralctlのログはデフォルトでは再起動じに消えるようになっている。
   - tzselectでtimezoneを設定
-  - /etc/chrony.conf でserver classroom.example.com iburstを追加したあとに、timedatectl set- yes
-  - timedatectl -set-timezone ●　→確認したいときはtimedatectl list-timezones | grep
+  - /etc/chrony.conf でserver classroom.example.com iburstを追加したあとに、timedatectl set-ntp yes
+  - timedatectl set-timezone ●　→確認したいときはtimedatectl list-timezones | grep
   - setfacl 権限なしの設定
   - usermod -s /sbin/nologin user03
   - usermod -L ログインロック
@@ -189,7 +189,23 @@
   - export PATHだけではログインし直すと消えてしまう。
   - だから、~/.bash_profileに設定すると良い。→ログインすると必ず適用される。（永続的）
   - bash_profileはプロセス間で環境変数が引き継がれる。
-
+　- usermod -g 主グループ　-G 福グループ -aG 副グループの追加
+  - find /home -perm -324 →少なくとも　の時⭐︎
+  - find /home -perm /442 またはのとき⭐︎
+  - find / -type f -links +1　複数のハードリンクを持つファイル　⭐︎→ -type見直す　b
+  - lvmではパーティションを作った後に、set 1 lvm on を忘れない
+  - lv作った後には、ファイルシステム追加を忘れない
+  - ipv4addressの登録のときはPREFIX部分でネットワークを定義
+  - firewall-cmd rich ruleは/32
+  - usermod -L アカウントのロック -U 解除
+  - usermod -e 2019-10-05 アカウント有効期限日の指定 ⭐︎
+  - usermod -s /sbin/nologin user
+  - chage -d 0 operator1 初回ログイン時にパス変更強制
+  - date -d "+180 days"
+  - 実行してるユーザのpodmanコマンドがSELinuxの権限を変えれるかちゃんとかんガエル
+  - 権限とSELiuxに気をつける
+  - journalctl --since "-10min" 過去10分以内に記録された⭐︎
+  - timedatectl set-timezone UTC タイムゾーンをUTCにするとき
 
   - touch tvseason{1,2}_episode{1..6}とやると、１２こまとめて作れる
   - systemctl list-dependencies
@@ -208,14 +224,18 @@
   - vfatについて調べる
   - https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/proc_mounting-a-container-filesystem_assembly_working-with-containers
   - fine -iname  大文字と小文字区別しない
-  - find -mmin -mmin +3 ３分以上前に更新されたファイル
+  - find -mmin -mmin +3 ３分以上前に更新されたファイル⭐︎
   -  -mtime 指定される日程より前に更新
   - -atime 指定される日程より前にアクセス
-  - find -executable
-  - -perm -g+s SGIDのファイル
+  - find -executable -readable -writable
+  - -perm -g+s SGIDのファイル　⭐︎　
+  - -o+t  -perm -1000
+  - -u+s :SUID　
+  - -perm -u+s -o -perm -g+s : SUIDかSGIDどちらか有効
+  -            -a   どちらも有効
   - -u -o全て -g
-  - ファイルに出力するとき、エラーは出力しないように気をつける　1>
-  - bytesでfindのときは100c⭐︎
+  - ファイルに出力するとき、エラーは出力しないように気をつける　1> ⭐︎
+  - bytesでfindのときは100c⭐︎　-size 100c
 
 
 
@@ -225,6 +245,15 @@
   - スティッキービットとGID
   - パスの通し方
   - autofs
+
+
+- 最後にやりたいこと
+　- stratis
+  - findコマンド
+  - LVM
+  - networkの設定
+  - rpmパッケージのクエリーの章
+  - swapの拡張
 
 
 - bootについて
@@ -244,20 +273,20 @@
  - data -d '+90days'
  - chage -d 0 operator1 : パスワード変更を強要
  - chage -E 2019-07-24 operator1
- - /etc/login.defs は全員分の
+ - /etc/login.defs は全員分の⭐︎
  - usermod -c コメント　を付け加えれる
- - userdel -r ホームディレクトリごと削除
- - groupadd -g 10000 group   gidを指定
+ - userdel -r ホームディレクトリごと削除⭐︎
+ - groupadd -g 10000 group   gidを指定⭐︎
  - groupmod -n group0022 group02 新しいnameに変更　-g 新しいGID
  - usermod -aG なら補助グループを追加、複数になる
 
  - コマンドラインショートカット：https://rol.redhat.com/rol/app/courses/rh124-8.2/pages/ch02s05
  - PEERDNS=no にするとDHCPサーバからDNS情報を受け取らない
- - find -size +70k -mmin +180 -user user -group group -type b
+ - find -size +70k -mmin +180 -user user -group group -type b⭐︎
  - journalctl -p err
  - journalctl --since '-1 hour'
  - journalctl -b 最新のシステムブートのみ：/var/log/journalに保存される場合
- - journalctl -b -1 前回のブート
+ - journalctl -b -1 前回のブート⭐︎
  - vi /ec/chrony.confにserver classroom.example.comを追加。
  - logger -p authpriv.alert で試せる
  - /etc/systemd/journald.confのstorageパラメータを変えてリブート後もジャーナルが保持される
@@ -271,7 +300,7 @@
  - 正規表現にはシェルのメタ文字 ($、*、{} など) が含まれることがあるため、正規表現を一重引用符によりカプセル化することをお勧めします。
  - これにより、コマンドによって解釈される。
  - grep -v '^[#;]' /etc/ethertypesについて　２の方
- - swapon -a を忘れない（mount -a）swapon --showで見れる。＆mkswapも
+ - swapon -a を忘れない（mount -a）swapon --showで見れる。＆mkswapも⭐︎
  - set 1(number) lvm on
  - niceレベル -20が最高　19が最低
  - ps u $(pgrep sha1sum) : CPU使用率
@@ -289,17 +318,21 @@
  - systemd-tmpfiles timerはデフォルトで(usr/libに書いてある)15分ごとにsystemd-tmpfiles cleanをトリガーし、
  systemd-tmpfiles --cleanコマンドを実行
  - /etc/tmp.files.d/ *.confにしたがって、たとえばsystemd-tmpfiles --cleanコマンドが
- ５分で/tmpを一掃　。/usr/lib/tmpfiles.d/tmp.confをコピーする。
+ ５分アクセスされてない/tmpのファイルを一掃　。/usr/lib/tmpfiles.d/tmp.confをコピーする。
  - とりあえず、/etc/tmpfiles.d/*.confを作って、systemd-tmpfiles --createをする。
  - run-parts コマンドは、毎日、毎週、毎月のジョブも実行しますが、異なる設定ファイル /etc/anacrontab から呼び出されます。
  - /etc/anacrontabは毎日毎週のジョブの定義をして、/etc/crontabは自分で定義可能？
  - /etc/crontabとcrontab -e の違いは、ユーザを追加する（前者）かそうじゃないか
  - nfsのオプション rw,sync
  - 自動直接マップは絶対パス
- - -rw,sync,fstype=nfs4
+ - -rw,sync,fstype=nfs4⭐︎
  - swapon -aを忘れない
  - コンテナでloginctl enable-lingerを忘れない
  - umaskをデフォルトで設定するときは~/.bashrcと ~/.bash_profileに書き込む
+ - rpm -qf　/etc/yum.repos.d:ファイルネームを提供しているパッケージを確認
+ - rpm -ql yum　パッケージによってインストールされたファイルを全部確認
+ - rpm -ivh rhcsa-script-1.0.0-1.noarch.rpm: パッケージのインストール⭐︎
+
 
 - 質問したいこと
 
@@ -309,34 +342,61 @@
  - 質問: vfat 0 2 ?
  - マウントオプション asyncとは。ファイルシステム上での非同期の入/出力を許可します。とはつまり？
  - envコマンドはどこを読み取っているのか。どのファイル？
- -
+ - https://www.ap-siken.com/kakomon/26_aki/q10.html なんで左は空きが０なのか。
+ - PS1とbashの謎
+ - コピーの仕方
+
 
 
  - デフォルトの設定と今あるやつの適用と二回やる。setfacl
  - nfsのオプションはdefaultsじゃなく、rw,sync
- - -sigcont:プロセス再開
- - kill -l でオプション見れる。
+ - -sigcont:プロセス再開⭐︎
+ - kill -l でオプション見れる。⭐︎
  - デフォルトじゃないkeyを作る
  - ssh-keygen -f .ssh/key2
  - ssh-copy-id -i .ssh/key2.pub operator1@servera keyを渡す。
  - ssh -i .ssh/key2 operator1@servera hostname keyの指定
- - eval $(ssh-agent)のあと、ssh-add .ssh/key2で、次keyを利用してsshするときにkey自体の認証はいらなくなる。
+ - eval $(ssh-agent)のあと、ssh-add .ssh/key2で、次keyを利用してsshするときにkey自体の認証はいらなくなる。⭐︎
 
  - 語数はw -w 文字数はw -c
  - date +%rは12時間表示
  - ソフトリンクのときは絶対パス
  - chmodをやるときはroot権限でやろう
- - chage -m 10 -M 30 user名
+ - chage -m 10 -M 30 user名⭐︎
  - chage -d 0 user名　: パスワード変更強制
  - export PATH=${PATH}:/home/user/sbin パスを追加
  - bashrcの中でexport EDITOR=nanoのようにエディタ設定可能
  - シェルから実行するプログラムの場合に適用する変数：環境変数, 例えばviとか
-
+ - curlをすると、localhost:8080にアクセスしてhttpdコンテナアプリの8888番につながる。そのアプリの実行ユーザ＝containers(コンテナのユーザ)⭐︎
+ がホストの/srv/webにアクセスして情報取得
+ - container_file_t タイプではないファイルには、コンテナ側からアクセスできないようになっている
+ - semanage -a -t container_file_t /
+ - restorecon -Rvとはデフォルトを変えた後に現在のファイルのパーミッションも変えること
+ - dd if=/dev/urandom of=/stratisvol/file2 bs=1M count=2048⭐︎
+ - ifは標準入力、ofは標準出力　bsは一回に読み書きするバイト数,
+ - echo "date >> /home/student/myjob.txt" | at now +3min
+ - retorecon -Rv で変えた設定の適用を忘れない。
+ - curlでアクセスするときはapacheがファイルを参照する。
+ - public_htmlを有効にする→/etc/httpd/conf.d/usrdir.confを編集→/home/student/public_html
+ を作る。その下にindex.html→selinux　⭐︎
+ - 	*[[:digit:]]*:数字が含まれるファイル名
+ - [[:upper:]]*: 大文字で始まるファイル名]
+ - yum module removeとyum module disableをする⭐︎
+ - c.\{2\}t coat cart
+ - 正規表現 []　[]の中のいずれか一文字
+ - xfs_growfsまたはlvextend -r⭐︎
+ - swapの拡張: swapoff lv →　lvextend → mkswap lv → swapon ⭐︎
+ - resize2fs →ext4の拡張
 
  帰ったら
  - vdoとstratisやる.
  - vgextend やる。
  - /etc/fstabのおぷしょん
+ - コンテナ権限について
+ - findコマンドについて
+ - 正規表現
+ - sysstat
+
 
 
 
